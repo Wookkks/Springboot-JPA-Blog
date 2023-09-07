@@ -25,14 +25,14 @@ public class SecurityConfig {
         http
                 // csrf 토큰 비활성화 (테스트시 걸어두는 게 좋음)
                 .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/", "/auth/**", "/js/**", "/css/**", "/img/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                    .authorizeRequests()
+                    .antMatchers("/", "/auth/**", "/js/**", "/css/**", "/img/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/auth/loginForm");
+                    .formLogin()
+                    .loginPage("/auth/loginForm");
 
         return http.build();
     }
