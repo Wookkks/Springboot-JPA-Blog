@@ -1,5 +1,6 @@
 package com.cos.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +30,6 @@ public class Board {
     @Lob // 대용량 데이터 잡을 때
     private String content; // 섬머노트 라이브러리 <html>태그가 섞여서 디자인이 됨 -> 용량이 커짐
 
-    @ColumnDefault("0")
     private int count; // 조회수
 
     @ManyToOne(fetch = FetchType.EAGER)  // Many = Board, User = One
@@ -37,7 +37,9 @@ public class Board {
     private User user; // DB는 오브젝트를 저장할 수 없어서 FK를 사용하는데, 자바는 오브젝트를 저장할 수 있다.
 
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // 하나의 게시글은 여러개의 답글을 가질 수 있다
-    private List<Reply> reply;
+    @JsonIgnoreProperties({"board"})
+    @OrderBy("id desc")
+    private List<Reply> replys;
 
     @CreationTimestamp
     private Timestamp createDate;

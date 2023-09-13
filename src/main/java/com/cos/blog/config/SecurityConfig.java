@@ -33,11 +33,14 @@ public class SecurityConfig {
     BCryptPasswordEncoder encodePWD() {
         return new BCryptPasswordEncoder();
     }
+    private final PrincipalDetailService principalDetailService;
+    public SecurityConfig(PrincipalDetailService principalDetailService) {
+        this.principalDetailService = principalDetailService;
+    }
 
-    // 시큐리티가 대신 로그인 해주는데 password를 가로채기를 하는데
+    // 시큐리티가 대신 로그인 하면서 password를 가로채는데
     // 해당 password가 뭘로 해쉬가 되어 회원가입이 되었는지 알아야
     // 같은 해쉬로 암호화해서 DB에 있는 해쉬랑 비교를 할 수 있음
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
@@ -48,7 +51,7 @@ public class SecurityConfig {
                 // csrf 토큰 비활성화 (테스트시 걸어두는 게 좋음)
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/auth/**", "/js/**", "/css/**", "/img/**")
+                    .antMatchers("/", "/auth/**", "/js/**", "/css/**", "/img/**", "/dummy/**", "/test/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated()
