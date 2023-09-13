@@ -4,6 +4,10 @@ let index = {
         $("#btn-save").on("click", ()=>{ // function(){}, ()=>{} 코드를 줄이려는게 아니라 this를 바인딩하기 위해서!!
             this.save();
         });
+
+        $("#btn-update").on("click", ()=>{
+            this.update();
+        });
     },
 
     save: function () {
@@ -34,6 +38,29 @@ let index = {
             location.href = "/";
         }).fail(function (error){
             // 실패할 때 수행
+            alert(JSON.stringify(error));
+        });
+    },
+
+    update: function () {
+        
+        let data = {
+            id: $("#id").val(),
+            password: $("#password").val(),
+            email: $("#email").val()
+        };
+        
+        console.log("update 실행")
+        $.ajax({
+            type: "PUT",
+            url: "/user",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(function (resp){
+            alert("회원수정이 완료되었습니다.")
+            location.href = "/";
+        }).fail(function (error){
             alert(JSON.stringify(error));
         });
     }
