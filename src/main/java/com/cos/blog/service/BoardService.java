@@ -81,4 +81,9 @@ public class BoardService {
         int result = replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(), replySaveRequestDto.getContent());
         System.out.println(result);
     }
+
+    @Transactional
+    public void 댓글삭제(int replyId) {
+        replyRepository.deleteById(replyId);
+    }
 }
